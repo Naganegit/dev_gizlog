@@ -7,15 +7,21 @@
   {!! Form::open(['route' => 'report.store']) !!}
     <div class="form-group form-size-small">
       {!! Form::input('date', 'reporting_time', null, ['class' => 'form-control']) !!}
-      <span class="help-block"></span>
+      @foreach ($errors->get('reporting_time') as $message) 
+        <span class="help-block">{!! $message !!}</span>
+      @endforeach
     </div>
     <div class="form-group">
       {!! Form::text('title', null,  ['class' => 'form-control', 'placeholder' => 'Title']) !!}
-      <span class="help-block"></span>
+      @foreach ($errors->get('title') as $message) 
+        <span class="help-block">{!! $message !!}</span>
+      @endforeach
     </div>
     <div class="form-group">
-      {!! Form::textarea('contents', null, ['class' => 'form-control', 'placeholder' => 'Content', 'cols' => '50' , 'rows' => '10']) !!}
-      <span class="help-block"></span>
+      {!! Form::textarea('content', null, ['class' => 'form-control', 'placeholder' => 'Content', 'cols' => '50' , 'rows' => '10']) !!}
+      @foreach ($errors->get('content') as $message) 
+        <span class="help-block">{!! $message !!}</span>
+      @endforeach
     </div>
     {!! Form::submit('Add', ['class' => 'btn btn-success pull-right']) !!}
   {!! Form::close() !!}

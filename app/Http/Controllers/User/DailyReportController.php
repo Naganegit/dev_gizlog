@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\DailyReport;
 use Auth;
+use Validator;
 
 class DailyReportController extends Controller
 {
@@ -50,9 +51,15 @@ class DailyReportController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->all();
-        $this->report->fill()
-        dd($input);
+        $inputs = $request->all();
+        $validatedData = Validator::make($inputs, [
+            'reporting_time' => 'required|before:tomorrow',
+            'title' => 'required|max:30',
+            'content' => 'required|max:1000',
+        ])->validate();
+
+        $inputs['user_id'] = Auth::id();
+        $this->report->fill($inputs)->save();
     }
     
     /**
@@ -98,5 +105,19 @@ class DailyReportController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * 定義済みバリデーションルールのエラーメッセージ取得
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'reporting_time.before' => '今日以前の日付を入力してください。',
+            'title.max' => '30文字以内で入力してください。',
+            'content.max' => '1000文字以内で入力してください。',
+        ];
     }
 }
