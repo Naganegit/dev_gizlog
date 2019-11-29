@@ -45,7 +45,9 @@ Route::group(['prefix' => '/', 'user.', 'namespace' => 'User'], function () {
     Route::post('question/{id}/confirm', ['as' => 'confirm.update', 'uses' => 'QuestionController@confirm']);
     Route::post('question/{id}/comment', ['as' => 'question.comment', 'uses' => 'QuestionController@storeComment']);
     Route::resource('question', QuestionController::class);
-
+    
+    Route::get('report/edit/{id}', ['as' => 'report.edit', 'uses' => 'DailyReportsController@edit']);
+    Route::resource('report', DailyReportsController::class);
 });
 
 
