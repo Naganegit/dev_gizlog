@@ -4,9 +4,21 @@ namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\DailyReport;
+use Auth;
 
-class DailyReportsController extends Controller
+class DailyReportController extends Controller
 {
+    private $report;
+
+    public function __construct(DailyReport $dailyReport)
+    {
+        $this->middleware('auth');
+        $this->report = $dailyReport;
+    }
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +26,10 @@ class DailyReportsController extends Controller
      */
     public function index()
     {
-        return view('user.daily_report.index');
+        $user = Auth::user();
+        $reports = $this->report->all();
+        // $reports = $this->report->getByUserId(Auth::id());
+        return view('user.daily_report.index', compact('reports'));
     }
     
     /**
@@ -24,7 +39,7 @@ class DailyReportsController extends Controller
      */
     public function create()
     {
-        //
+        return view('user.daily_report.create', compact('reports'));
     }
 
     /**
@@ -35,7 +50,8 @@ class DailyReportsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+        dd($input);
     }
     
     /**
@@ -46,9 +62,9 @@ class DailyReportsController extends Controller
      */
     public function show($id)
     {
-        return view('user.daily_report.edit');
+        return view('user.daily_report.show');
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      *
@@ -57,7 +73,7 @@ class DailyReportsController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('user.daily_report.edit');
     }
 
     /**
