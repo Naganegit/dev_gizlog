@@ -51,6 +51,7 @@ class DailyReportController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
+        $this->report->fill()
         dd($input);
     }
     
