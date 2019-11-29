@@ -76,7 +76,10 @@ class DailyReportController extends Controller
      */
     public function show($id)
     {
-        return view('user.daily_report.show');
+        $report = $this->report->find($id);
+        $posted_time = $report->reporting_time;
+        $posted_date = date('Y/m/d', strtotime($posted_time))." (".$this->getDateOfWeek($posted_time).")";
+        return view('user.daily_report.show', compact('report', 'posted_date'));
     }
     
     /**
@@ -111,6 +114,11 @@ class DailyReportController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getDateOfWeek($date){
+        $dayOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        return $dayOfWeek[date('w', strtotime($date))];
     }
 
 }

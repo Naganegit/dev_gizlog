@@ -26,7 +26,7 @@
             <td class="col-xs-2">{{ $report->reporting_time }}</td>
             <td class="col-xs-3">{{ str_limit($report->title, 30, '...') }}</td>
             <td class="col-xs-5">{{ str_limit($report->content, 50, '...') }}</td>
-            <td class="col-xs-2"><a class="btn" href=""><i class="fa fa-book"></i></a></td>
+            <td class="col-xs-2"><a class="btn" href="{{ route('report.show', $report->id) }}"><i class="fa fa-book"></i></a></td>
           </tr>
         @endforeach
       </tbody>
