@@ -56,6 +56,11 @@ class DailyReportController extends Controller
             'reporting_time' => 'required|before:tomorrow',
             'title' => 'required|max:30',
             'content' => 'required|max:1000',
+        ], $messages = [
+            'required' => '入力必須の項目です。',
+            'reporting_time.before' => '今日以前の日付を入力してください。',
+            'title.max' => '30文字以内で入力してください。',
+            'content.max' => '1000文字以内で入力してください。',
         ])->validate();
 
         $inputs['user_id'] = Auth::id();
@@ -107,17 +112,4 @@ class DailyReportController extends Controller
         //
     }
 
-    /**
-     * 定義済みバリデーションルールのエラーメッセージ取得
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'reporting_time.before' => '今日以前の日付を入力してください。',
-            'title.max' => '30文字以内で入力してください。',
-            'content.max' => '1000文字以内で入力してください。',
-        ];
-    }
 }
