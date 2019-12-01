@@ -25,11 +25,16 @@ class DailyReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
-        $reports = $this->report->all();
-        // $reports = $this->report->getByUserId(Auth::id());
+        $searchText = $request->get('search-month');
+        if (empty($searchText)) {
+            $reports = $this->report->getByUserId(Auth::id());
+        } else {
+            return "searchText: $searchText";
+            $reports = $this->report->getByUserId(Auth::id())->where('reporting_time', 'like', $searchText.'%');
+        }
         return view('user.daily_report.index', compact('reports'));
     }
     
@@ -77,9 +82,7 @@ class DailyReportController extends Controller
     public function show($id)
     {
         $report = $this->report->find($id);
-        $posted_time = $report->reporting_time;
-        $posted_date = date('Y/m/d', strtotime($posted_time))." (".$this->getDateOfWeek($posted_time).")";
-        return view('user.daily_report.show', compact('report', 'posted_date'));
+        return view('user.daily_report.show', compact('report'));
     }
     
     /**
@@ -115,10 +118,4 @@ class DailyReportController extends Controller
     {
         //
     }
-
-    public function getDateOfWeek($date){
-        $dayOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        return $dayOfWeek[date('w', strtotime($date))];
-    }
-
 }
