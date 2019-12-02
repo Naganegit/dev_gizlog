@@ -29,6 +29,9 @@
             <td class="col-xs-2"><a class="btn" href="{{ route('report.show', $report->id) }}"><i class="fa fa-book"></i></a></td>
           </tr>
         @endforeach
+        <tr class="row">
+          <td colspan="4">{{ $reports->links() }}</td>
+        </tr>
       </tbody>
     </table>
   </div>
