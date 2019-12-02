@@ -32,10 +32,12 @@ class DailyReportController extends Controller
         if (empty($searchText)) {
             $reports = $this->report->getByUserId(Auth::id());
         } else {
-            return "searchText: $searchText";
-            $reports = $this->report->getByUserId(Auth::id())->where('reporting_time', 'like', $searchText.'%');
+            $reports = $this->report->where([
+                ['user_id', '=', Auth::id()],
+                ['reporting_time', 'like', "$searchText%"],
+                ])->get();
         }
-        return view('user.daily_report.index', compact('reports'));
+        return view('user.daily_report.index', compact('reports','searchText'));
     }
     
     /**
