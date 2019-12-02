@@ -111,6 +111,12 @@ class DailyReportController extends Controller
         return redirect()->route('report.index');
     }
 
+    /**
+     * Check the validation of inputed records.
+     *
+     * @param  int  $inputs
+     * @return \Illuminate\Validation\Validator
+     */
     public function validateInputReport($inputs)
     {
         return Validator::make($inputs, $validationRules = [
