@@ -37,7 +37,7 @@ class DailyReportController extends Controller
     public function index(Request $request)
     {
         $searchText = $request->get('search-month');
-        $reports = $this->report->find(Auth::id());
+        $reports = $this->report->where('user_id', Auth::id());
         if (!empty($searchText)) {
             $reports = $reports->where('reporting_time', 'like', "$searchText%");
         }
@@ -52,7 +52,7 @@ class DailyReportController extends Controller
      */
     public function create()
     {
-        return view('user.daily_report.create', compact('reports'));
+        return view('user.daily_report.create');
     }
 
     /**
