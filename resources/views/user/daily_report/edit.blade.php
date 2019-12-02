@@ -18,7 +18,7 @@
         @endforeach
       </div>
       <div class="form-group{{ $errors->has('content')? ' has-error' : '' }}">
-        {!! Form::textarea('content', $report->content, ['class' => 'form-control', 'placeholder' => 'Content', 'cols' => '50', 'rows' => '10']) !!}
+        {!! Form::textarea('content', $report->content, ['class' => 'form-control', 'placeholder' => 'Content']) !!}
         @foreach ($errors->get('content') as $message)
         <span class="help-block">{!! $message !!}</span>
         @endforeach
