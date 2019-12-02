@@ -40,7 +40,7 @@ class DailyReportController extends Controller
         $user = Auth::user();
         $searchText = $request->get('search-month');
         if (empty($searchText)) {
-            $reports = $this->report->where('user_id', Auth::id())->paginate(3);
+            $reports = $this->report->where('user_id', Auth::id())->paginate(10);
         } else {
             $reports = $this->report->where([
                 ['user_id', '=', Auth::id()],
