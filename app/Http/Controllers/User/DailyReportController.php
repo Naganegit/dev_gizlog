@@ -42,8 +42,7 @@ class DailyReportController extends Controller
      */
     public function create()
     {
-        $today = Carbon::today()->toDateString();
-        return view('user.daily_report.create', compact('today'));
+        return view('user.daily_report.create');
     }
 
     /**

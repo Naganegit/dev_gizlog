@@ -6,7 +6,7 @@
   <div class="container">
     {!! Form::open(['route' => 'report.store']) !!}
       <div class="form-group form-size-small{{ $errors->has('reporting_time')? ' has-error' : '' }}">
-        {!! Form::input('date', 'reporting_time', $today, ['class' => 'form-control']) !!}
+        {!! Form::input('date', 'reporting_time', Carbon::today()->toDateString(), ['class' => 'form-control']) !!}
         @foreach ($errors->get('reporting_time') as $message) 
           <span class="help-block">{!! $message !!}</span>
         @endforeach
