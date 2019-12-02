@@ -12,13 +12,23 @@ class DailyReportController extends Controller
 {
     private $report;
 
+    private $errorMessages = [
+        'required' => '入力必須の項目です。',
+        'reporting_time.before' => '今日以前の日付を入力してください。',
+        'title.max' => '30文字以内で入力してください。',
+        'content.max' => '1000文字以内で入力してください。',
+    ];
+    private $validationRules = [
+        'reporting_time' => 'required|before:tomorrow',
+        'title' => 'required|max:30',
+        'content' => 'required|max:1000',
+    ];
+
     public function __construct(DailyReport $dailyReport)
     {
         $this->middleware('auth');
         $this->report = $dailyReport;
     }
-
-
 
     /**
      * Display a listing of the resource.
@@ -59,16 +69,7 @@ class DailyReportController extends Controller
     public function store(Request $request)
     {
         $inputs = $request->all();
-        $validatedData = Validator::make($inputs, [
-            'reporting_time' => 'required|before:tomorrow',
-            'title' => 'required|max:30',
-            'content' => 'required|max:1000',
-        ], $messages = [
-            'required' => '入力必須の項目です。',
-            'reporting_time.before' => '今日以前の日付を入力してください。',
-            'title.max' => '30文字以内で入力してください。',
-            'content.max' => '1000文字以内で入力してください。',
-        ])->validate();
+        Validator::make($inputs, $this->validationRules, $this->errorMessages)->validate();
 
         $inputs['user_id'] = Auth::id();
         $this->report->fill($inputs)->save();
@@ -95,7 +96,8 @@ class DailyReportController extends Controller
      */
     public function edit($id)
     {
-        return view('user.daily_report.edit');
+        $report = $this->report->find($id);
+        return view('user.daily_report.edit', compact('report'));
     }
 
     /**
@@ -107,7 +109,11 @@ class DailyReportController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $inputs = $request->all();
+        Validator::make($inputs, $this->validationRules, $this->errorMessages)->validate();
+        $inputs['user_id'] = Auth::id();
+        $this->report->find($id)->fill($inputs)->save();
+        return redirect()->route('report.index');
     }
 
     /**

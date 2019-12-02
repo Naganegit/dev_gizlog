@@ -4,22 +4,27 @@
 <h1 class="brand-header">日報編集</h1>
 <div class="main-wrap">
   <div class="container">
-    <form>
-      <input class="form-control" name="user_id" type="hidden" value="4">
-      <div class="form-group form-size-small">
-        <input class="form-control" name="reporting_time" type="date">
-        <span class="help-block"></span>
+    {!! Form::open(['route' => ['report.update', $report->id], 'method' => 'PUT']) !!}
+    <div class="form-group form-size-small{{ $errors->has('reporting_time')? ' has-error' : '' }}">
+        {!! Form::input('date', 'reporting_time', $report->reporting_time->format('Y-m-d'), ['class' => 'form-control']) !!}
+        @foreach ($errors->get('reporting_time') as $message)
+        <span class="help-block">{!! $message !!}</span>
+        @endforeach
       </div>
-      <div class="form-group">
-        <input class="form-control" placeholder="Title" name="title" type="text">
-        <span class="help-block"></span>
+      <div class="form-group{{ $errors->has('title')? ' has-error' : '' }}">
+        {!! Form::input('text', 'title', $report->title, ['class' => 'form-control', 'placeholder' => 'Title']) !!}
+        @foreach ($errors->get('title') as $message)
+        <span class="help-block">{!! $message !!}</span>
+        @endforeach
       </div>
-      <div class="form-group">
-        <textarea class="form-control" placeholder="本文" name="contents" cols="50" rows="10">本文</textarea>
-        <span class="help-block"></span>
+      <div class="form-group{{ $errors->has('content')? ' has-error' : '' }}">
+        {!! Form::textarea('content', $report->content, ['class' => 'form-control', 'placeholder' => 'Content', 'cols' => '50', 'rows' => '10']) !!}
+        @foreach ($errors->get('content') as $message)
+        <span class="help-block">{!! $message !!}</span>
+        @endforeach
       </div>
       <button type="submit" class="btn btn-success pull-right">Update</button>
-    </form>
+    {!! Form::close() !!}
   </div>
 </div>
 
