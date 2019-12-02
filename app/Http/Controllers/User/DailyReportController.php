@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\DailyReport;
+use Carbon\Carbon;
 use Auth;
 use Validator;
 
@@ -41,7 +42,8 @@ class DailyReportController extends Controller
      */
     public function create()
     {
-        return view('user.daily_report.create');
+        $today = Carbon::today()->toDateString();
+        return view('user.daily_report.create', compact('today'));
     }
 
     /**
