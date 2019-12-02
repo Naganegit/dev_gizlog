@@ -11,7 +11,6 @@ use Validator;
 class DailyReportController extends Controller
 {
     private $report;
-
     private $errorMessages = [
         'required' => '入力必須の項目です。',
         'reporting_time.before' => '今日以前の日付を入力してください。',
@@ -70,9 +69,8 @@ class DailyReportController extends Controller
     {
         $inputs = $request->all();
         Validator::make($inputs, $this->validationRules, $this->errorMessages)->validate();
-
         $inputs['user_id'] = Auth::id();
-        $this->report->fill($inputs)->save();
+        $this->report->create($inputs);
         return redirect()->route('report.index');
     }
     
