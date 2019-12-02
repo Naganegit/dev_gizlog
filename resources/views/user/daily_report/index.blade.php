@@ -30,7 +30,7 @@
           </tr>
         @endforeach
         <tr class="row">
-          <td colspan="4">{{ $reports->links() }}</td>
+          <td colspan="4">{{ $reports->appends(['search-month' => $searchText])->links() }}</td>
         </tr>
       </tbody>
     </table>
