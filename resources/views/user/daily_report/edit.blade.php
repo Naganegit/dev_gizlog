@@ -23,7 +23,7 @@
         <span class="help-block">{!! $message !!}</span>
         @endforeach
       </div>
-      <button type="submit" class="btn btn-success pull-right">Update</button>
+      {!! Form::button('Update', ['class' => 'btn btn-success pull-right', 'type' => 'submit']) !!}
     {!! Form::close() !!}
   </div>
 </div>
