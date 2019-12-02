@@ -7,21 +7,15 @@
     {!! Form::open(['route' => 'report.store']) !!}
       <div class="form-group form-size-small{{ $errors->has('reporting_time')? ' has-error' : '' }}">
         {!! Form::input('date', 'reporting_time', Carbon::today()->toDateString(), ['class' => 'form-control']) !!}
-        @foreach ($errors->get('reporting_time') as $message) 
-          <span class="help-block">{!! $message !!}</span>
-        @endforeach
+        <span class="help-block">{{ $errors->first('reporting_time') }}</span>
       </div>
       <div class="form-group{{ $errors->has('title')? ' has-error' : '' }}">
         {!! Form::text('title', null,  ['class' => 'form-control', 'placeholder' => 'Title']) !!}
-        @foreach ($errors->get('title') as $message) 
-          <span class="help-block">{!! $message !!}</span>
-        @endforeach
+        <span class="help-block">{{ $errors->first('title') }}</span>
       </div>
       <div class="form-group{{ $errors->has('content')? ' has-error' : '' }}">
         {!! Form::textarea('content', null, ['class' => 'form-control', 'placeholder' => 'Content']) !!}
-        @foreach ($errors->get('content') as $message) 
-          <span class="help-block">{!! $message !!}</span>
-        @endforeach
+        <span class="help-block">{{ $errors->first('content') }}</span>
       </div>
       {!! Form::submit('Add', ['class' => 'btn btn-success pull-right']) !!}
     {!! Form::close() !!}
