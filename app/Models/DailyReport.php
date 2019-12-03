@@ -30,7 +30,6 @@ class DailyReport extends Model
                         if (!empty($searchText)) {
                             $query->where('reporting_time', 'like', $searchText.'%');
                         }
-                    })
-                    ->get();
+                    });
     }
 }
