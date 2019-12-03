@@ -22,4 +22,15 @@ class DailyReport extends Model
         'updated_at',
         'deleted_at'
     ];
+
+    public function getDailyReports($user_id, $searchText)
+    {
+        return $this->where('user_id', $user_id)
+                    ->where(function($query) use ($searchText) {
+                        if (!empty($searchText)) {
+                            $query->where('reporting_time', 'like', $searchText.'%');
+                        }
+                    })
+                    ->get();
+    }
 }

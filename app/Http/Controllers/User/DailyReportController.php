@@ -28,11 +28,7 @@ class DailyReportController extends Controller
     public function index(Request $request)
     {
         $searchText = $request->get('search-month');
-        $reports = $this->report->where('user_id', Auth::id());
-        if (!empty($searchText)) {
-            $reports = $reports->where('reporting_time', 'like', "$searchText%");
-        }
-        $reports = $reports->orderBy('reporting_time', 'desc')->paginate(10);
+        $reports = $this->report->getDailyReports(Auth::id(), $searchText)->orderBy('reporting_time', 'desc')->paginate(10);
         return view('user.daily_report.index', compact('reports','searchText'));
     }
     
