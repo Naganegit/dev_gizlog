@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\DailyReportRequest;
 use App\Models\DailyReport;
 use Carbon\Carbon;
 use Auth;
@@ -51,11 +52,10 @@ class DailyReportController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(DailyReportRequest $request)
     {
-        $inputs = $request->all();
+        $inputs = $request->validated();
         $inputs['user_id'] = Auth::id();
-        $this->validateInputReport($inputs);
         $this->report->create($inputs);
         return redirect()->route('report.index');
     }
@@ -91,12 +91,11 @@ class DailyReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DailyReportRequest $request, $id)
     {
-        $inputs = $request->all();
+        $inputs = $request->validated();
         $inputs['user_id'] = Auth::id();
-        $this->validateInputReport($inputs);
-        $this->report->find($id)->fill($inputs)->save();
+        $this->report->find($id)->update($inputs);
         return redirect()->route('report.index');
     }
 
@@ -110,25 +109,5 @@ class DailyReportController extends Controller
     {
         $this->report->find($id)->delete();
         return redirect()->route('report.index');
-    }
-
-    /**
-     * Check the validation of inputed records.
-     *
-     * @param  int  $inputs
-     * @return \Illuminate\Validation\Validator
-     */
-    public function validateInputReport($inputs)
-    {
-        return Validator::make($inputs, $validationRules = [
-            'reporting_time' => 'required|before:tomorrow',
-            'title' => 'required|max:30',
-            'content' => 'required|max:1000',
-        ], $errorMessages = [
-            'required' => '入力必須の項目です。',
-            'reporting_time.before' => '今日以前の日付を入力してください。',
-            'title.max' => '30文字以内で入力してください。',
-            'content.max' => '1000文字以内で入力してください。',
-        ])->validate();
     }
 }
