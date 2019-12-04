@@ -55,8 +55,7 @@ class DailyReportController extends Controller
      */
     public function store(DailyReportRequest $request)
     {
-        $inputs = $request->validated();
-        $inputs['user_id'] = Auth::id();
+        $inputs = $this->report->fetchDataToUse($request, Auth::id());
         $this->report->create($inputs);
         return redirect()->route('report.index');
     }
@@ -94,8 +93,7 @@ class DailyReportController extends Controller
      */
     public function update(DailyReportRequest $request, $id)
     {
-        $inputs = $request->validated();
-        $inputs['user_id'] = Auth::id();
+        $inputs = $this->report->fetchDataToUse($request, Auth::id());
         $this->report->find($id)->update($inputs);
         return redirect()->route('report.index');
     }
