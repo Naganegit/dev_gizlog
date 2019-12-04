@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
+use App\Models\DailyReport as Report;
 
 class DailyReportsTableSeeder extends Seeder
 {
@@ -13,6 +14,6 @@ class DailyReportsTableSeeder extends Seeder
     public function run()
     {
         DB::table('daily_reports')->truncate();
-        factory(App\Models\DailyReport::class, 100)->create();
+        factory(Report::class, 200)->create();
     }
 }
