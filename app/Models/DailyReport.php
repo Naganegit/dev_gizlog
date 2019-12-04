@@ -9,6 +9,11 @@ class DailyReport extends Model
 {
     use SoftDeletes;
 
+    private $options = [
+        'sort_column' => 'reporting_time',
+        'items_per_page' => 10,
+    ];
+
     protected $fillable = [
         'user_id',
         'title',
@@ -18,18 +23,22 @@ class DailyReport extends Model
 
     protected $dates = [
         'reporting_time',
-        'created_at',
-        'updated_at',
-        'deleted_at'
     ];
 
-    public function getDailyReports($user_id, $searchText)
+    /**
+     * Return the reports associated with auth login user.
+     * If search text was inputted, Return the reports, which narrowed down by search text, of login user.
+     * 
+     * @return \Illuminate\View\View
+     */
+    public function getDailyReports($inputs)
     {
-        return $this->where('user_id', $user_id)
-                    ->where(function($query) use ($searchText) {
-                        if (!empty($searchText)) {
-                            $query->where('reporting_time', 'like', $searchText.'%');
-                        }
-                    });
+        return $this->where('user_id', $inputs['user_id'])
+            ->when($inputs['search-month'], 
+                function ($query) use ($inputs) {
+                    return $query->where('reporting_time', 'like', $inputs['search-month'] . '%');
+                })
+            ->orderBy($this->options['sort_column'], 'desc')
+            ->paginate($this->options['items_per_page']);
     }
 }

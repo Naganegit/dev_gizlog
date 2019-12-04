@@ -5,7 +5,7 @@
 <div class="main-wrap">
   <div class="btn-wrapper daily-report">
     {!! Form::open(['route' => 'report.index', 'method' => 'GET']) !!}
-      {!! Form::input('month', 'search-month', $searchText, ['class' => 'form-control']) !!}
+      {!! Form::input('month', 'search-month', $searchMonth, ['class' => 'form-control']) !!}
       {!! Form::button('<i class="fa fa-search"></i>', ['class' => 'btn btn-icon', 'type' => 'submit']) !!}
     {!! Form::close() !!}
     <a class="btn btn-icon" href="{{ route('report.create') }}"><i class="fa fa-plus"></i></a>
@@ -30,7 +30,7 @@
           </tr>
         @endforeach
         <tr class="row">
-          <td colspan="4">{{ $reports->appends(['search-month' => $searchText])->links() }}</td>
+          <td colspan="4">{{ $reports->appends(['search-month' => $searchMonth])->links() }}</td>
         </tr>
       </tbody>
     </table>

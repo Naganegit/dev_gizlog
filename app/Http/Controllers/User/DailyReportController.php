@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\DailyReportRequest;
+use App\Http\Requests\User\DailyReportSearchRequest;
 use App\Models\DailyReport;
 use Carbon\Carbon;
 use Auth;
@@ -25,11 +26,15 @@ class DailyReportController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index(Request $request)
+    public function index(DailyReportSearchRequest $request)
     {
-        $searchText = $request->get('search-month');
-        $reports = $this->report->getDailyReports(Auth::id(), $searchText)->orderBy('reporting_time', 'desc')->paginate(10);
-        return view('user.daily_report.index', compact('reports','searchText'));
+        $searchMonth = $request->get('search-month');
+        $inputs = [
+            'user_id' => Auth::id(),
+            'search-month' => $searchMonth,
+        ];
+        $reports = $this->report->getDailyReports($inputs);
+        return view('user.daily_report.index', compact('reports','searchMonth'));
     }
     
     /**
