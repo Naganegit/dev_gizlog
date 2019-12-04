@@ -11,6 +11,5 @@ $factory->define(Report::class, function (Faker $faker) {
         'reporting_time'    => $faker->date('2019-m-d').' '.$faker->time('H:i:s'),
         'created_at'        => $faker->date('2019-m-d').' '.$faker->time('H:i:s'),
         'updated_at'        => $faker->date('2019-m-d').' '.$faker->time('H:i:s'),
-        'deleted_at'        => null,
     ];
 });
