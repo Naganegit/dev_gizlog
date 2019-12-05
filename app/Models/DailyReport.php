@@ -9,10 +9,7 @@ class DailyReport extends Model
 {
     use SoftDeletes;
 
-    private $options = [
-        'sort_column' => 'reporting_time',
-        'items_per_page' => 10,
-    ];
+    const ITEMS_PER_PAGE = 10;
 
     protected $fillable = [
         'user_id',
@@ -34,11 +31,11 @@ class DailyReport extends Model
     public function getDailyReports($inputs)
     {
         return $this->where('user_id', $inputs['user_id'])
-            ->when($inputs['search-month'], 
+            ->when(!empty($inputs['search-month']), 
                 function ($query) use ($inputs) {
                     return $query->where('reporting_time', 'like', $inputs['search-month'] . '%');
                 })
-            ->orderBy($this->options['sort_column'], 'desc')
-            ->paginate($this->options['items_per_page']);
+            ->orderBy('reporting_time', 'desc')
+            ->paginate(self::ITEMS_PER_PAGE);
     }
 }
