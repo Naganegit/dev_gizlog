@@ -41,11 +41,4 @@ class DailyReport extends Model
             ->orderBy($this->options['sort_column'], 'desc')
             ->paginate($this->options['items_per_page']);
     }
-
-    public function fetchDataToUse($request, $userId)
-    {
-        $inputs = $request->only('reporting_time', 'title', 'content');
-        $inputs['user_id'] = $userId;
-        return $inputs;
-    }
 }

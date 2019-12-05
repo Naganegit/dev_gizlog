@@ -55,7 +55,7 @@ class DailyReportController extends Controller
      */
     public function store(DailyReportRequest $request)
     {
-        $inputs = $this->report->fetchDataToUse($request, Auth::id());
+        $inputs = $this->fetchDataToUse($request, Auth::id());
         $this->report->create($inputs);
         return redirect()->route('report.index');
     }
@@ -93,7 +93,7 @@ class DailyReportController extends Controller
      */
     public function update(DailyReportRequest $request, $id)
     {
-        $inputs = $this->report->fetchDataToUse($request, Auth::id());
+        $inputs = $this->fetchDataToUse($request, Auth::id());
         $this->report->find($id)->update($inputs);
         return redirect()->route('report.index');
     }
@@ -108,5 +108,19 @@ class DailyReportController extends Controller
     {
         $this->report->find($id)->delete();
         return redirect()->route('report.index');
+    }
+
+    /**
+     * Fetch specific data from request and Add user id key to hash array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $userId
+     * @return array $inputs
+     */
+    public function fetchDataToUse($request, $userId)
+    {
+        $inputs = $request->only('reporting_time', 'title', 'content');
+        $inputs['user_id'] = $userId;
+        return $inputs;
     }
 }
